@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil3.compose.AsyncImage
 import com.mon.gametracker.features.library.domain.Game
 
 
@@ -36,7 +37,14 @@ fun GameCard(
                 .padding(8.dp)
         ) {
 
-            //todo: añadir imagen con coil
+            AsyncImage(
+                model = game.imageURL,
+                contentDescription = "Cover of ${game.name}",
+                modifier = Modifier
+                    .size(size = 100.dp)
+                    .clip(shape = RoundedCornerShape(8.dp)),
+                contentScale = ContentScale.Crop
+            )
             
             Column(
                 modifier = Modifier.padding(start = 16.dp)

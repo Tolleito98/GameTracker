@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.mon.gametracker.core.ui.components.AppTopBar
 import com.mon.gametracker.features.library.ui.components.GameCard
 
 @Composable
@@ -22,7 +23,11 @@ fun LibraryScreen(
     val (isLoading, games, errorMessage) = uiState.value
 
     Scaffold(
-        topBar = {/*Todo: componente común*/},
+        topBar = {
+            AppTopBar(
+                "Library" //Todo: cambiar a string res una vez definido el titulo
+            )
+        },
     ) { paddingValues ->
         Box(
             modifier = Modifier
