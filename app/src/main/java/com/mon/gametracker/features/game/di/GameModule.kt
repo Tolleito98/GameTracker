@@ -1,6 +1,8 @@
 package com.mon.gametracker.features.game.di
 
+import com.mon.gametracker.features.game.data.MockAchievementRepositoryImpl
 import com.mon.gametracker.features.game.data.MockGameRepositoryImpl
+import com.mon.gametracker.features.game.domain.achievement.AchievementRepository
 import com.mon.gametracker.features.game.domain.game.GameRepository
 import dagger.Module
 import dagger.Provides
@@ -14,4 +16,10 @@ object GameModule  {
     @Singleton
     @Provides
     fun provideGameRepository(): GameRepository = MockGameRepositoryImpl()
+
+    @Singleton
+    @Provides
+    fun provideAchievementRepository(): AchievementRepository = MockAchievementRepositoryImpl()
+
+
 }
