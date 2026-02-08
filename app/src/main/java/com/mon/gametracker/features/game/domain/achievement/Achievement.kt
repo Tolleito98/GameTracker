@@ -1,17 +1,17 @@
 package com.mon.gametracker.features.game.domain.achievement
 
+import com.mon.gametracker.features.game.domain.game.GameId
 import java.time.LocalDate
 
 data class Achievement(
-    val id: AchievementId,
-    val gameId: String,
+    val key: AchievementKey,
     val description: String,
     val isCompleted: Boolean = false,
     val completionDate: LocalDate? = null,
     val guideURL: String
 ) {
-    fun toggleCompletion() : Achievement {
-        return if (!isCompleted){
+    fun toggleCompletion(): Achievement {
+        return if (!isCompleted) {
             this.copy(
                 isCompleted = true,
                 completionDate = LocalDate.now()
@@ -24,6 +24,11 @@ data class Achievement(
         }
     }
 }
+
+data class AchievementKey(
+    val gameId: GameId,
+    val achievementId: AchievementId
+)
 
 @JvmInline
 value class AchievementId(val value: String)
