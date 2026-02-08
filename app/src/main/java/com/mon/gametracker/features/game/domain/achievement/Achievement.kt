@@ -5,6 +5,7 @@ import java.time.LocalDate
 data class Achievement(
     val id: AchievementId,
     val gameId: String,
+    val description: String,
     val isCompleted: Boolean = false,
     val completionDate: LocalDate? = null,
     val guideURL: String
