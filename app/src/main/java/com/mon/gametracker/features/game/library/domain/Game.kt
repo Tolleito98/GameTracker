@@ -1,4 +1,4 @@
-package com.mon.gametracker.features.library.domain
+package com.mon.gametracker.features.game.library.domain
 
 data class Game(
     val id: String,

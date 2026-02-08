@@ -1,7 +1,7 @@
-package com.mon.gametracker.features.library.di
+package com.mon.gametracker.features.game.library.di
 
-import com.mon.gametracker.features.library.data.MockGameRepositoryImpl
-import com.mon.gametracker.features.library.domain.GameRepository
+import com.mon.gametracker.features.game.library.data.MockGameRepositoryImpl
+import com.mon.gametracker.features.game.library.domain.GameRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

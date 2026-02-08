@@ -1,4 +1,4 @@
-package com.mon.gametracker.features.library.ui
+package com.mon.gametracker.features.game.library.ui
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,7 +13,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.mon.gametracker.core.ui.components.AppTopBar
-import com.mon.gametracker.features.library.ui.components.GameCard
+import com.mon.gametracker.features.game.library.ui.components.GameCard
 
 @Composable
 fun LibraryScreen(

@@ -6,7 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.mon.gametracker.core.ui.theme.GameTrackerTheme
-import com.mon.gametracker.features.library.ui.LibraryScreen
+import com.mon.gametracker.features.game.library.ui.LibraryScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
