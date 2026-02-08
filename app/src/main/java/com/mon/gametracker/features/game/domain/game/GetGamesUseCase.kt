@@ -1,4 +1,4 @@
-package com.mon.gametracker.features.game.library.domain
+package com.mon.gametracker.features.game.domain.game
 
 import javax.inject.Inject
 

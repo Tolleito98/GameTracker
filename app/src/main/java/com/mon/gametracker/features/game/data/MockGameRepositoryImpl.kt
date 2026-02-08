@@ -1,7 +1,7 @@
-package com.mon.gametracker.features.game.library.data
+package com.mon.gametracker.features.game.data
 
-import com.mon.gametracker.features.game.library.domain.Game
-import com.mon.gametracker.features.game.library.domain.GameRepository
+import com.mon.gametracker.features.game.domain.game.Game
+import com.mon.gametracker.features.game.domain.game.GameRepository
 import javax.inject.Inject
 
 class MockGameRepositoryImpl @Inject constructor() : GameRepository {
