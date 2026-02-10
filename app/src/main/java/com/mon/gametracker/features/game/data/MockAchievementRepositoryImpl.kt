@@ -16,6 +16,7 @@ class MockAchievementRepositoryImpl
                 gameId = GameId("1"),
                 achievementId = AchievementId("1")
             ),
+            name = "Achievement 1",
             description = "example description game 1",
             isCompleted = false,
             completionDate = null,
@@ -26,6 +27,7 @@ class MockAchievementRepositoryImpl
                 gameId = GameId("1"),
                 achievementId = AchievementId("2")
             ),
+            name = "Achievement 2",
             description = "example description game 1",
             isCompleted = false,
             completionDate = null,
@@ -36,6 +38,7 @@ class MockAchievementRepositoryImpl
                 gameId = GameId("1"),
                 achievementId = AchievementId("3")
             ),
+            name = "Achievement 3",
             description = "example description game 1",
             isCompleted = false,
             completionDate = null,
@@ -46,6 +49,7 @@ class MockAchievementRepositoryImpl
                 gameId = GameId("1"),
                 achievementId = AchievementId("4")
             ),
+            name = "Achievement 4",
             description = "example description game 1",
             isCompleted = false,
             completionDate = null,
@@ -56,6 +60,7 @@ class MockAchievementRepositoryImpl
                 gameId = GameId("1"),
                 achievementId = AchievementId("5")
             ),
+            name = "Achievement 5",
             description = "example description game 1",
             isCompleted = false,
             completionDate = null,
@@ -69,6 +74,7 @@ class MockAchievementRepositoryImpl
                 gameId = GameId("2"),
                 achievementId = AchievementId("1")
             ),
+            name = "Achievement 1",
             description = "example description game 2",
             isCompleted = false,
             completionDate = null,
@@ -79,6 +85,7 @@ class MockAchievementRepositoryImpl
                 gameId = GameId("2"),
                 achievementId = AchievementId("2")
             ),
+            name = "Achievement 2",
             description = "example description game 2",
             isCompleted = false,
             completionDate = null,
@@ -89,6 +96,7 @@ class MockAchievementRepositoryImpl
                 gameId = GameId("2"),
                 achievementId = AchievementId("3")
             ),
+            name = "Achievement 3",
             description = "example description game 2",
             isCompleted = false,
             completionDate = null,
@@ -99,6 +107,7 @@ class MockAchievementRepositoryImpl
                 gameId = GameId("2"),
                 achievementId = AchievementId("4")
             ),
+            name = "Achievement 4",
             description = "example description game 2",
             isCompleted = false,
             completionDate = null,
@@ -109,6 +118,7 @@ class MockAchievementRepositoryImpl
                 gameId = GameId("2"),
                 achievementId = AchievementId("5")
             ),
+            name = "Achievement 5",
             description = "example description game 2",
             isCompleted = false,
             completionDate = null,
