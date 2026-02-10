@@ -17,6 +17,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -27,11 +28,11 @@ import coil3.compose.AsyncImage
 import com.mon.gametracker.core.ui.components.AppTopBar
 import com.mon.gametracker.features.game.deatil.ui.components.AchievementItem
 import com.mon.gametracker.features.game.domain.achievement.Achievement
+import com.mon.gametracker.features.game.domain.achievement.AchievementId
 import com.mon.gametracker.features.game.domain.game.Game
 import com.mon.gametracker.features.game.domain.game.GameId
 
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun DetailScreen(
     viewModel: DetailViewModel
@@ -47,7 +48,7 @@ fun DetailScreen(
 
         )
 
-    val uiState = viewModel.uiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsState()
 
     Scaffold(
         topBar = {
@@ -56,7 +57,7 @@ fun DetailScreen(
             )
         },
     ) { paddingValues ->
-        if (uiState.value.isLoading) {
+        if (uiState.isLoading) {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -68,8 +69,13 @@ fun DetailScreen(
         } else {
             DetailContent(
                 game = temp,
-                achievements = uiState.value.achievements,
-
+                achievements = uiState.achievements,
+                onToggleAchievement = { achievementId, isCompleted ->
+                    viewModel.onToggleAchievement(
+                        achievementId = achievementId,
+                        isCompleted = isCompleted
+                    )
+                }
             )
         }
     }
@@ -80,7 +86,7 @@ fun DetailScreen(
 private fun DetailContent(
     game: Game,
     achievements: List<Achievement>,
-    //onToggleAchievement: (String, Boolean) -> Unit
+    onToggleAchievement: (AchievementId, Boolean) -> Unit
 ) {
     LazyColumn(
         modifier = Modifier
@@ -115,8 +121,19 @@ private fun DetailContent(
 
         }
 
-        items(achievements) { achievement ->
-            AchievementItem(achievement)
+        items(
+            items = achievements,
+            key = { it.key.achievementId.value }
+        ) { achievement ->
+            AchievementItem(
+                achievement = achievement,
+                onToggle = { newValue ->
+                    onToggleAchievement(
+                        achievement.key.achievementId,
+                        newValue
+                    )
+                }
+            )
         }
     }
 }

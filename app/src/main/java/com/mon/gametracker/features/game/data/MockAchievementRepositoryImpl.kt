@@ -1,16 +1,18 @@
 package com.mon.gametracker.features.game.data
 
+import android.util.Log
 import com.mon.gametracker.features.game.domain.achievement.Achievement
 import com.mon.gametracker.features.game.domain.achievement.AchievementId
 import com.mon.gametracker.features.game.domain.achievement.AchievementKey
 import com.mon.gametracker.features.game.domain.achievement.AchievementRepository
 import com.mon.gametracker.features.game.domain.game.GameId
+import java.time.LocalDate
 import javax.inject.Inject
 
 class MockAchievementRepositoryImpl
 @Inject constructor() : AchievementRepository {
 
-    private val achievementsGame1 = listOf(
+    private val achievementsGame1 = mutableListOf(
         Achievement(
             key = AchievementKey(
                 gameId = GameId("1"),
@@ -18,7 +20,7 @@ class MockAchievementRepositoryImpl
             ),
             name = "Achievement 1",
             description = "example description game 1",
-            isCompleted = false,
+            isCompleted = true,
             completionDate = null,
             guideURL = "example.com"
         ),
@@ -68,7 +70,7 @@ class MockAchievementRepositoryImpl
         ),
     )
 
-    private val achievementsGame2 = listOf(
+    private val achievementsGame2 = mutableListOf(
         Achievement(
             key = AchievementKey(
                 gameId = GameId("2"),
@@ -126,14 +128,14 @@ class MockAchievementRepositoryImpl
         ),
     )
 
-    private val achievementsByGame = mapOf(
+    private val achievementsByGame = mutableMapOf(
         GameId("1") to achievementsGame1,
         GameId("2") to achievementsGame2
     )
 
 
     override suspend fun getAchievements(gameId: GameId): List<Achievement> {
-        return achievementsByGame[gameId] ?: emptyList()
+        return achievementsByGame[gameId]?.toList() ?: emptyList()
     }
 
 
@@ -144,6 +146,21 @@ class MockAchievementRepositoryImpl
         return achievementsByGame[gameId]?.find {
             it.key.achievementId == achievementId
         }
+    }
+
+    override suspend fun setCompleted(
+        gameId: GameId,
+        achievementId: AchievementId,
+        isCompleted: Boolean
+    ): Boolean {
+        val achievements = achievementsByGame[gameId]?: return false
+        val achievement = achievements.find { it.key.achievementId == achievementId }?: return false
+        val index = achievements.indexOf(achievement)
+        achievements[index] = achievement.copy(
+            isCompleted = isCompleted,
+            completionDate = if (isCompleted) LocalDate.now() else null
+        )
+        return true
     }
 }
 

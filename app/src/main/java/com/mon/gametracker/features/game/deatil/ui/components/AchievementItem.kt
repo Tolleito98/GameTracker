@@ -19,7 +19,7 @@ import com.mon.gametracker.features.game.domain.achievement.Achievement
 @Composable
 fun AchievementItem(
     achievement: Achievement,
-    //onCheckedChange: () -> Unit,
+    onToggle: (Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -28,6 +28,12 @@ fun AchievementItem(
             .padding(vertical = 8.dp, horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
+
+        Checkbox(
+            checked = achievement.isCompleted,
+            onCheckedChange = {onToggle(it)},
+            enabled = true
+        )
 
         Spacer(modifier = Modifier.width(12.dp))
 

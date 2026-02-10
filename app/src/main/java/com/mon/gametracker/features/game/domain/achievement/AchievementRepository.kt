@@ -10,4 +10,11 @@ interface AchievementRepository {
         gameId: GameId,
         achievementId: AchievementId
     ) : Achievement?
+
+    suspend fun setCompleted(
+        gameId: GameId,
+        achievementId: AchievementId,
+        isCompleted: Boolean
+    ) : Boolean
+
 }
