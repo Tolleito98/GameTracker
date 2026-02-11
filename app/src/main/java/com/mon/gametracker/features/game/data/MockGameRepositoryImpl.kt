@@ -3,6 +3,7 @@ package com.mon.gametracker.features.game.data
 import com.mon.gametracker.features.game.domain.game.Game
 import com.mon.gametracker.features.game.domain.game.GameId
 import com.mon.gametracker.features.game.domain.game.GameRepository
+import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 class MockGameRepositoryImpl @Inject constructor() : GameRepository {
@@ -34,6 +35,13 @@ class MockGameRepositoryImpl @Inject constructor() : GameRepository {
         )
     )
 
-    override suspend fun getGames(): List<Game> = games
-    override suspend fun getGameById(id: GameId): Game? = games.find { it.id == id }
+    override suspend fun getGames(): List<Game> {
+        delay(1000)
+        return games
+    }
+
+    override suspend fun getGameById(id: GameId): Game? {
+        delay(1000)
+        return games.find { it.id == id }
+    }
 }

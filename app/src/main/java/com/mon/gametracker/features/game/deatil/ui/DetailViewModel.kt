@@ -7,7 +7,10 @@ import com.mon.gametracker.features.game.domain.achievement.AchievementId
 import com.mon.gametracker.features.game.domain.achievement.GetAchievementUseCase
 import com.mon.gametracker.features.game.domain.achievement.SetAchievementCompletedUseCase
 import com.mon.gametracker.features.game.domain.game.GameId
+import com.mon.gametracker.features.game.domain.game.GetGameUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -19,8 +22,9 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailViewModel @Inject constructor(
     private val getAchievementUseCase: GetAchievementUseCase,
-    private val setAchievementCompletedUseCase: SetAchievementCompletedUseCase
-    //todo: definir el getGame use case
+    private val setAchievementCompletedUseCase: SetAchievementCompletedUseCase,
+    private val getGameUseCase: GetGameUseCase
+
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(value = DetailUiState())
@@ -32,24 +36,41 @@ class DetailViewModel @Inject constructor(
 
     private fun loadGameData() {
         viewModelScope.launch {
+
             _uiState.update {
                 it.copy(
                     isLoading = true,
                     errorMessage = null
                 )
             }
-            try {
-                //todo: pasar el game id por navegación
-                val achievements = getAchievementUseCase.execute(GameId("1"))
-                _uiState.value = _uiState.value.copy(
-                    achievements = achievements,
-                    isLoading = false
-                )
-            } catch (e: Exception) {
-                _uiState.value = _uiState.value.copy(
-                    errorMessage = "Error ${e.message}?: unknown",
-                    isLoading = false
-                )
+
+            val gameId = GameId("1") //Todo: parámetro de navegación
+
+            val result = runCatching {
+                coroutineScope {
+                    val gameDeferred = async { getGameUseCase.execute(gameId) }
+                    val achievementsDeferred = async { getAchievementUseCase.execute(gameId) }
+
+                    Pair(gameDeferred.await(), achievementsDeferred.await())
+                }
+            }
+
+            result.onSuccess { (game, achievements) ->
+                _uiState.update {
+                    it.copy(
+                        game = game,
+                        achievements = achievements,
+                        isLoading = false
+                    )
+                }
+            }.onFailure { e ->
+                Log.e("DetailViewModel", "Error loading data", e)
+                _uiState.update {
+                    it.copy(
+                        isLoading = false,
+                        errorMessage = e.localizedMessage ?: "Unknown error"
+                    )
+                }
             }
         }
 
