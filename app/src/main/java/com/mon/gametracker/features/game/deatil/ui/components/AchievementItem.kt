@@ -1,15 +1,29 @@
 package com.mon.gametracker.features.game.deatil.ui.components
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,39 +36,75 @@ fun AchievementItem(
     onToggle: (Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Row(
+
+    var expanded by remember { mutableStateOf(false) }
+
+    Card(
         modifier = modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp, horizontal = 16.dp),
-        verticalAlignment = Alignment.CenterVertically
+            .padding(vertical = 6.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
-
-        Checkbox(
-            checked = achievement.isCompleted,
-            onCheckedChange = {onToggle(it)},
-            enabled = true
-        )
-
-        Spacer(modifier = Modifier.width(12.dp))
-
         Column(
             modifier = Modifier
-                .weight(1F)
+                .fillMaxWidth()
+                .animateContentSize()
+                .padding(16.dp)
         ) {
-            Text(
-                text = achievement.name,
-                style = MaterialTheme.typography.titleMedium,
-                color =
-                    if (achievement.isCompleted)
-                        MaterialTheme.colorScheme.primary
-                    else Color.Unspecified
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
 
-            )
-            Text(
-                text = achievement.description,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
+                Text(
+                    text = achievement.name,
+                    style = MaterialTheme.typography.titleMedium,
+                    color =
+                        if (achievement.isCompleted)
+                            MaterialTheme.colorScheme.primary
+                        else Color.Unspecified
+
+                )
+                Text(
+                    text = achievement.description,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+
+                IconButton(
+                    onClick = { expanded = !expanded }
+                ) {
+                    Icon(
+                        imageVector = if (expanded)
+                            Icons.Default.KeyboardArrowUp
+                        else Icons.Default.KeyboardArrowDown,
+                        contentDescription = "Expand"
+                    )
+                }
+
+                Checkbox(
+                    checked = achievement.isCompleted,
+                    onCheckedChange = { onToggle(it) }
+                )
+
+            }
+
+            if (expanded) {
+                Spacer(modifier = Modifier.height(12.dp))
+
+                Surface(
+                    modifier = Modifier.fillMaxWidth(),
+                    color = MaterialTheme.colorScheme.surfaceVariant,
+                    shape = MaterialTheme.shapes.medium
+                ) {
+                    Text(
+                        text = "Url a la guía",
+                        modifier = Modifier.padding(12.dp),
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
+            }
         }
     }
 }
