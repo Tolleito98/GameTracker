@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.compose.AsyncImage
 import com.mon.gametracker.core.ui.components.AppTopBar
+import com.mon.gametracker.core.ui.components.ErrorCard
 import com.mon.gametracker.features.game.deatil.ui.components.AchievementItem
 import com.mon.gametracker.features.game.domain.achievement.Achievement
 import com.mon.gametracker.features.game.domain.achievement.AchievementId
@@ -37,47 +38,52 @@ import com.mon.gametracker.features.game.domain.game.GameId
 fun DetailScreen(
     viewModel: DetailViewModel
 ) {
-//tempGame
-    val temp = Game(
-        id = GameId("1"),
-        name = "zelda",
-        imageURL = "",
-        genre = "adventure",
-        developer = "nintendo",
-        rating = 5.5,
-
-        )
 
     val uiState by viewModel.uiState.collectAsState()
+    val (game, isLoading, errorMessage, achievements) = uiState
 
     Scaffold(
         topBar = {
             AppTopBar(
-                title = "Detail Screen",
+                title = "Game Detail",
             )
         },
     ) { paddingValues ->
-        if (uiState.isLoading) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues),
-                contentAlignment = Alignment.Center
-            ) {
-                CircularProgressIndicator()
-            }
-        } else {
-            DetailContent(
-                modifier = Modifier.padding(paddingValues),
-                game = temp,
-                achievements = uiState.achievements,
-                onToggleAchievement = { achievementId, isCompleted ->
-                    viewModel.onToggleAchievement(
-                        achievementId = achievementId,
-                        isCompleted = isCompleted
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues),
+            contentAlignment = Alignment.Center
+        ) {
+            when {
+                errorMessage != null -> {
+                    ErrorCard(
+                        message = errorMessage,
+                        modifier = Modifier
+                            .align(Alignment.Center)
                     )
                 }
-            )
+
+                isLoading -> {
+                    CircularProgressIndicator(
+                        modifier = Modifier
+                            .align(Alignment.Center)
+                    )
+                }
+
+                game != null -> {
+                    DetailContent(
+                        game = game,
+                        achievements = uiState.achievements,
+                        onToggleAchievement = { achievementId, isCompleted ->
+                            viewModel.onToggleAchievement(
+                                achievementId = achievementId,
+                                isCompleted = isCompleted
+                            )
+                        }
+                    )
+                }
+            }
         }
     }
 }
@@ -95,10 +101,11 @@ private fun DetailContent(
             .fillMaxSize()
             .padding(16.dp)
     ) {
+
         item {
             AsyncImage(
-                model = "https://picsum.photos/400/600",
-                contentDescription = "Cover of ${"GameName"}",
+                model = game.imageURL,
+                contentDescription = "Cover of ${game.name}",
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(400.dp),
@@ -109,7 +116,7 @@ private fun DetailContent(
         item {
             Spacer(modifier = Modifier.padding(vertical = 14.dp))
             Text(
-                text = "Name",
+                text = game.name,
                 style = MaterialTheme.typography.headlineMedium
             )
             DetailItem(
