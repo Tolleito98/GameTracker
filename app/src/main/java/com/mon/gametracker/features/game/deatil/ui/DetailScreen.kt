@@ -68,6 +68,7 @@ fun DetailScreen(
             }
         } else {
             DetailContent(
+                modifier = Modifier.padding(paddingValues),
                 game = temp,
                 achievements = uiState.achievements,
                 onToggleAchievement = { achievementId, isCompleted ->
@@ -86,10 +87,11 @@ fun DetailScreen(
 private fun DetailContent(
     game: Game,
     achievements: List<Achievement>,
-    onToggleAchievement: (AchievementId, Boolean) -> Unit
+    onToggleAchievement: (AchievementId, Boolean) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     LazyColumn(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .padding(16.dp)
     ) {
