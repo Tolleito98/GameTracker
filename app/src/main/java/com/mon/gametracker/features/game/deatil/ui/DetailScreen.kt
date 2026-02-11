@@ -156,6 +156,5 @@ private fun DetailItem(label: String, value: String) {
             style = MaterialTheme.typography.bodyLarge
         )
     }
-
 }
 

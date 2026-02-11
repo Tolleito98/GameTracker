@@ -55,7 +55,7 @@ fun AchievementItem(
 
 
 @Composable
-fun AchievementItemContent(
+private fun AchievementItemContent(
     achievement: Achievement,
     expanded: Boolean,
     onExpandClick: () -> Unit,
@@ -120,7 +120,7 @@ fun AchievementItemContent(
 }
 
 @Composable
-fun AchievementInfo(
+private fun AchievementInfo(
     achievement: Achievement
 ){
     Surface(
