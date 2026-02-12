@@ -12,13 +12,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.mon.gametracker.core.ui.components.AppTopBar
 import com.mon.gametracker.core.ui.components.ErrorCard
+import com.mon.gametracker.features.game.domain.game.GameId
 import com.mon.gametracker.features.game.library.ui.components.GameCard
 
 @Composable
 fun LibraryScreen(
-    viewModel: LibraryViewModel
+    onNavigateToDetail: (GameId) -> Unit,
+    viewModel: LibraryViewModel = hiltViewModel()
 ) {
     val uiState = viewModel.uiState.collectAsState()
     val (isLoading, games, errorMessage) = uiState.value
@@ -58,11 +61,15 @@ fun LibraryScreen(
                         items(
                             games
                         ) { game ->
-                            GameCard(game = game)
+                            GameCard(
+                                game = game,
+                                onCLick = {
+                                    onNavigateToDetail(game.id)
+                                }
+                            )
                         }
                     }
                 }
-
             }
         }
     }

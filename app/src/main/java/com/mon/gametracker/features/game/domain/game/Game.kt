@@ -1,6 +1,7 @@
 package com.mon.gametracker.features.game.domain.game
 
 import com.mon.gametracker.features.game.domain.achievement.Achievement
+import kotlinx.serialization.Serializable
 
 data class Game(
     val id: GameId,
@@ -12,5 +13,6 @@ data class Game(
     val achievements: List<Achievement>? = null
 )
 
+@Serializable
 @JvmInline
 value class GameId(val value: String)
