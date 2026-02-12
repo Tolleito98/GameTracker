@@ -13,6 +13,14 @@ data class Game(
     val achievements: List<Achievement>? = null
 )
 
+data class GameSummary(
+    val id: GameId,
+    val name: String,
+    val imageURL: String,
+    val rating: Double,
+    val genre: String
+)
+
 @Serializable
 @JvmInline
 value class GameId(val value: String)

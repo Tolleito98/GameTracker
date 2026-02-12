@@ -21,11 +21,12 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.mon.gametracker.features.game.domain.game.Game
 import com.mon.gametracker.features.game.domain.game.GameId
+import com.mon.gametracker.features.game.domain.game.GameSummary
 
 
 @Composable
 fun GameCard(
-    game: Game,
+    game: GameSummary,
     onCLick: (GameId) -> Unit,
     modifier: Modifier = Modifier
 ) {
