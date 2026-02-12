@@ -23,11 +23,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.compose.AsyncImage
 import com.mon.gametracker.core.ui.components.AppTopBar
 import com.mon.gametracker.core.ui.components.ErrorCard
 import com.mon.gametracker.features.game.deatil.ui.components.AchievementItem
+import com.mon.gametracker.features.game.deatil.ui.components.EmptyAchievementsCard
 import com.mon.gametracker.features.game.domain.achievement.Achievement
 import com.mon.gametracker.features.game.domain.achievement.AchievementId
 import com.mon.gametracker.features.game.domain.game.Game
@@ -36,7 +38,8 @@ import com.mon.gametracker.features.game.domain.game.GameId
 
 @Composable
 fun DetailScreen(
-    viewModel: DetailViewModel
+    viewModel: DetailViewModel = hiltViewModel(),
+    onBack: () -> Unit
 ) {
 
     val uiState by viewModel.uiState.collectAsState()
@@ -46,6 +49,7 @@ fun DetailScreen(
         topBar = {
             AppTopBar(
                 title = "Game Detail",
+                onBack = onBack
             )
         },
     ) { paddingValues ->
@@ -130,19 +134,26 @@ private fun DetailContent(
 
         }
 
-        items(
-            items = achievements,
-            key = { it.key.achievementId.value }
-        ) { achievement ->
-            AchievementItem(
-                achievement = achievement,
-                onToggle = { newValue ->
-                    onToggleAchievement(
-                        achievement.key.achievementId,
-                        newValue
-                    )
-                }
-            )
+        if (achievements.isEmpty()) {
+            item {
+                EmptyAchievementsCard()
+            }
+        } else {
+
+            items(
+                items = achievements,
+                key = { it.key.achievementId.value }
+            ) { achievement ->
+                AchievementItem(
+                    achievement = achievement,
+                    onToggle = { newValue ->
+                        onToggleAchievement(
+                            achievement.key.achievementId,
+                            newValue
+                        )
+                    }
+                )
+            }
         }
     }
 }
