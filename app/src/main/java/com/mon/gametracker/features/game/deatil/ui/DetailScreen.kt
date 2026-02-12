@@ -29,6 +29,7 @@ import coil3.compose.AsyncImage
 import com.mon.gametracker.core.ui.components.AppTopBar
 import com.mon.gametracker.core.ui.components.ErrorCard
 import com.mon.gametracker.features.game.deatil.ui.components.AchievementItem
+import com.mon.gametracker.features.game.deatil.ui.components.EmptyAchievementsCard
 import com.mon.gametracker.features.game.domain.achievement.Achievement
 import com.mon.gametracker.features.game.domain.achievement.AchievementId
 import com.mon.gametracker.features.game.domain.game.Game
@@ -133,19 +134,26 @@ private fun DetailContent(
 
         }
 
-        items(
-            items = achievements,
-            key = { it.key.achievementId.value }
-        ) { achievement ->
-            AchievementItem(
-                achievement = achievement,
-                onToggle = { newValue ->
-                    onToggleAchievement(
-                        achievement.key.achievementId,
-                        newValue
-                    )
-                }
-            )
+        if (achievements.isEmpty()) {
+            item {
+                EmptyAchievementsCard()
+            }
+        } else {
+
+            items(
+                items = achievements,
+                key = { it.key.achievementId.value }
+            ) { achievement ->
+                AchievementItem(
+                    achievement = achievement,
+                    onToggle = { newValue ->
+                        onToggleAchievement(
+                            achievement.key.achievementId,
+                            newValue
+                        )
+                    }
+                )
+            }
         }
     }
 }

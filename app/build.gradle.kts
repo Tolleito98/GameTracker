@@ -75,7 +75,7 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.coil.network)
 
-    implementation(libs.kotlinx.serialization.json)
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.10.0")
 
 
 }

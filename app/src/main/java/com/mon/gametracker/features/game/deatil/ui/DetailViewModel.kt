@@ -1,13 +1,16 @@
 package com.mon.gametracker.features.game.deatil.ui
 
 import android.util.Log
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
 import com.mon.gametracker.features.game.domain.achievement.AchievementId
 import com.mon.gametracker.features.game.domain.achievement.GetAchievementUseCase
 import com.mon.gametracker.features.game.domain.achievement.SetAchievementCompletedUseCase
 import com.mon.gametracker.features.game.domain.game.GameId
 import com.mon.gametracker.features.game.domain.game.GetGameUseCase
+import com.mon.gametracker.navigation.GameDetailDestination
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
@@ -23,9 +26,13 @@ import javax.inject.Inject
 class DetailViewModel @Inject constructor(
     private val getAchievementUseCase: GetAchievementUseCase,
     private val setAchievementCompletedUseCase: SetAchievementCompletedUseCase,
-    private val getGameUseCase: GetGameUseCase
-
+    private val getGameUseCase: GetGameUseCase,
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
+
+    private val route = savedStateHandle.toRoute<GameDetailDestination>()
+    private val gameId = GameId(route.gameId)
+
 
     private val _uiState = MutableStateFlow(value = DetailUiState())
     val uiState: StateFlow<DetailUiState> = _uiState.asStateFlow()
@@ -44,7 +51,7 @@ class DetailViewModel @Inject constructor(
                 )
             }
 
-            val gameId = GameId("1") //Todo: parámetro de navegación
+            val gameId = GameId(value = gameId.value)
 
             val result = runCatching {
                 coroutineScope {
