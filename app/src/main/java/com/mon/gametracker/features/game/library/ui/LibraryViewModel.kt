@@ -2,6 +2,7 @@ package com.mon.gametracker.features.game.library.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mon.gametracker.features.game.domain.game.GameSummary
 import com.mon.gametracker.features.game.domain.game.GetGamesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,8 +31,18 @@ class LibraryViewModel @Inject constructor(
             )
             try {
                 val games = getGamesUseCase.execute()
+                val gameSummary = games.map { game ->
+                    GameSummary(
+                        id = game.id,
+                        name = game.name,
+                        imageURL = game.imageURL,
+                        rating = game.rating,
+                        genre = game.genre
+                    )
+                }
+
                 _uiState.value = _uiState.value.copy(
-                    games = games,
+                    games = gameSummary,
                     isLoading = false
                 )
             } catch (e: Exception) {
