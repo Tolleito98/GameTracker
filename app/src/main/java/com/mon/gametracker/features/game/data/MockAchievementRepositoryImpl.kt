@@ -6,6 +6,7 @@ import com.mon.gametracker.features.game.domain.achievement.AchievementId
 import com.mon.gametracker.features.game.domain.achievement.AchievementKey
 import com.mon.gametracker.features.game.domain.achievement.AchievementRepository
 import com.mon.gametracker.features.game.domain.game.GameId
+import kotlinx.coroutines.delay
 import java.time.LocalDate
 import javax.inject.Inject
 
@@ -135,6 +136,7 @@ class MockAchievementRepositoryImpl
 
 
     override suspend fun getAchievements(gameId: GameId): List<Achievement> {
+        delay(1000)
         return achievementsByGame[gameId]?.toList() ?: emptyList()
     }
 

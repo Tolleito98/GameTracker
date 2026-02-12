@@ -13,6 +13,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.mon.gametracker.core.ui.components.AppTopBar
+import com.mon.gametracker.core.ui.components.ErrorCard
 import com.mon.gametracker.features.game.library.ui.components.GameCard
 
 @Composable
@@ -34,23 +35,34 @@ fun LibraryScreen(
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            if (isLoading) {
-                CircularProgressIndicator(
-                    modifier = Modifier
-                        .align(Alignment.Center)
-                )
 
-            } else if (errorMessage != null) {
-                Text(uiState.value.errorMessage!!)
+            when {
+                errorMessage != null -> {
+                    ErrorCard(
+                        message = errorMessage,
+                        modifier = Modifier
+                            .align(Alignment.Center)
+                    )
+                }
 
-            } else {
-                LazyColumn {
-                    items(
-                        games
-                    ) { game ->
-                        GameCard(game = game)
+                isLoading -> {
+                    CircularProgressIndicator(
+                        modifier = Modifier
+                            .align(Alignment.Center)
+                    )
+
+                }
+
+                else -> {
+                    LazyColumn {
+                        items(
+                            games
+                        ) { game ->
+                            GameCard(game = game)
+                        }
                     }
                 }
+
             }
         }
     }
