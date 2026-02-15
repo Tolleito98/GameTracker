@@ -21,6 +21,7 @@ GameTracker is an app to track video game details and achievements.
 ## How to Run
 1. Clone the repository.
 2. Open in Android Studio.
+3. Add to local.properties *RAWG_API_KEY* and your key 
 3. Run on an emulator or a physical device.
 
 ## Future Improvements

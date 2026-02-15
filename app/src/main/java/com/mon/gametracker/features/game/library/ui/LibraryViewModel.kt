@@ -31,18 +31,9 @@ class LibraryViewModel @Inject constructor(
             )
             try {
                 val games = getGamesUseCase.execute()
-                val gameSummary = games.map { game ->
-                    GameSummary(
-                        id = game.id,
-                        name = game.name,
-                        imageURL = game.imageURL,
-                        rating = game.rating,
-                        genre = game.genre
-                    )
-                }
 
                 _uiState.value = _uiState.value.copy(
-                    games = gameSummary,
+                    games = games,
                     isLoading = false
                 )
             } catch (e: Exception) {
