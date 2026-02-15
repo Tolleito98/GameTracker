@@ -1,3 +1,6 @@
+import java.util.Properties
+import java.io.FileInputStream
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
@@ -14,9 +17,7 @@ hilt {
 
 android {
     namespace = "com.mon.gametracker"
-    compileSdk {
-        version = release(36)
-    }
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.mon.gametracker"
@@ -26,6 +27,16 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        val properties = Properties()
+        val propFile = project.rootProject.file("local.properties")
+        if (propFile.exists()) properties.load(FileInputStream(propFile))
+
+        buildConfigField(
+            "String",
+            "API_KEY", "\"${properties.getProperty("RAWG_API_KEY")}\""
+        )
+
     }
 
     buildTypes {
@@ -43,6 +54,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
@@ -79,4 +91,5 @@ dependencies {
     implementation(libs.retrofit.converter.kotlinx)
     implementation(libs.okhttp.logging)
 
+    implementation(libs.kotlinx.serialization.json)
 }
