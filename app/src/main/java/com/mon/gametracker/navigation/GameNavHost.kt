@@ -2,12 +2,11 @@ package com.mon.gametracker.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.mon.gametracker.features.game.deatil.ui.DetailScreen
-import com.mon.gametracker.features.game.library.ui.LibraryScreen
+import com.mon.gametracker.features.game.ui.detail.DetailScreen
+import com.mon.gametracker.features.game.ui.library.LibraryScreen
 
 @Composable
 fun GameNavHost(
