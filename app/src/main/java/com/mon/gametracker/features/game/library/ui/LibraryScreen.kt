@@ -1,6 +1,8 @@
 package com.mon.gametracker.features.game.library.ui
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -11,11 +13,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.mon.gametracker.core.ui.components.AppTopBar
 import com.mon.gametracker.core.ui.components.ErrorCard
 import com.mon.gametracker.features.game.domain.game.GameId
-import com.mon.gametracker.features.game.library.ui.components.GameCard
+import com.mon.gametracker.core.ui.components.GameCard
+import com.mon.gametracker.core.ui.components.GameList
+import com.mon.gametracker.features.game.domain.game.GameSummary
 
 @Composable
 fun LibraryScreen(
@@ -55,25 +60,12 @@ fun LibraryScreen(
 
                 }
 
-                else -> {
-                    LazyColumn {
-                        items(
-                            games
-                        ) { game ->
-                            GameCard(
-                                game = game,
-                                onCLick = {
-                                    onNavigateToDetail(game.id)
-                                }
-                            )
-                        }
-                    }
-                }
+                else -> GameList(
+                    games = games,
+                    onGameClick = { onNavigateToDetail(it) }
+                )
             }
         }
     }
 }
-
-
-
 
