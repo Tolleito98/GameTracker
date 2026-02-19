@@ -36,7 +36,7 @@ class MockGameRepositoryImpl @Inject constructor() : GameRepository {
         )
     )
 
-    override suspend fun getGames(): List<GameSummary> {
+    override suspend fun getGames(query: String?): List<GameSummary> {
         delay(1000)
         return games.map { game ->
             GameSummary(

@@ -6,4 +6,7 @@ import kotlinx.serialization.Serializable
 object LibraryDestination
 
 @Serializable
+object AddDestination
+
+@Serializable
 data class GameDetailDestination(val gameId: String)

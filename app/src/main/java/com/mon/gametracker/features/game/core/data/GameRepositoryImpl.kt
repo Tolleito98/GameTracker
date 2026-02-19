@@ -12,9 +12,9 @@ class GameRepositoryImpl @Inject constructor(
     private val api: GameApiService
 ) : GameRepository {
 
-    override suspend fun getGames(): List<GameSummary> {
+    override suspend fun getGames(query: String?): List<GameSummary> {
         return try {
-            val response = api.getGames()
+            val response = api.getGames(query = query)
             response.results.map { it.toSummary() }
         } catch (e: Exception) {
             emptyList()
