@@ -17,7 +17,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             GameTrackerTheme {
-                AddScreen()
+                GameNavHost(navController = rememberNavController())
             }
         }
     }

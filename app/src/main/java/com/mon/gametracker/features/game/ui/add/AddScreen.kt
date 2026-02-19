@@ -31,6 +31,8 @@ import com.mon.gametracker.features.game.ui.components.GameList
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddScreen(
+    onBack: () -> Unit,
+    
     viewModel: AddScreenViewModel = hiltViewModel()
 ) {
 

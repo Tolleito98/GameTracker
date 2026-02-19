@@ -5,6 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.mon.gametracker.features.game.ui.add.AddScreen
 import com.mon.gametracker.features.game.ui.detail.DetailScreen
 import com.mon.gametracker.features.game.ui.library.LibraryScreen
 
@@ -30,6 +31,12 @@ fun GameNavHost(
         composable<GameDetailDestination> {
             DetailScreen(
                 onBack = {navController.popBackStack()}
+            )
+        }
+        composable<AddDestination> {
+            AddScreen(
+                onBack = {navController.popBackStack()}
+                /*Todo: implementar to detail*/
             )
         }
 
