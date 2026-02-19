@@ -32,7 +32,6 @@ import com.mon.gametracker.features.game.ui.components.GameList
 @Composable
 fun AddScreen(
     onBack: () -> Unit,
-    
     viewModel: AddScreenViewModel = hiltViewModel()
 ) {
 
@@ -54,6 +53,7 @@ fun AddScreen(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             AddScreenTopBar(
+                onBack = onBack,
                 scrollBehavior = scrollBehavior,
                 isExpanded = isExpanded,
                 onExpandedChange = { isExpanded = it },
@@ -88,7 +88,7 @@ fun AddScreen(
                 else -> {
                     GameList(
                         games = games,
-                        onGameClick = { /* TODO: Guardar juego */ }
+                        onGameClick = { /* TODO: Go to detail xd */ }
                     )
                 }
             }
@@ -100,6 +100,7 @@ fun AddScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun AddScreenTopBar(
+    onBack: () -> Unit,
     scrollBehavior: TopAppBarScrollBehavior,
     isExpanded: Boolean,
     onExpandedChange: (Boolean) -> Unit,
@@ -114,7 +115,8 @@ private fun AddScreenTopBar(
         if (!isExpanded) {
             AppTopBar(
                 title = "Add Games",
-                scrollBehavior = scrollBehavior
+                scrollBehavior = scrollBehavior,
+                onBack = onBack
             )
         }
 

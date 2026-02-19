@@ -3,8 +3,12 @@ package com.mon.gametracker.features.game.ui.library
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -20,6 +24,7 @@ import com.mon.gametracker.features.game.ui.components.GameList
 @Composable
 fun LibraryScreen(
     onNavigateToDetail: (GameId) -> Unit,
+    onNavigateToAdd: () -> Unit,
     viewModel: LibraryViewModel = hiltViewModel()
 ) {
     val uiState = viewModel.uiState.collectAsState()
@@ -31,6 +36,16 @@ fun LibraryScreen(
                 "Library" //Todo: cambiar a string res una vez definido el titulo
             )
         },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = onNavigateToAdd
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = "Add game"
+                )
+            }
+        }
     ) { paddingValues ->
         Box(
             modifier = Modifier
