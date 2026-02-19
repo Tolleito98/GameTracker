@@ -9,6 +9,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -17,6 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 @Composable
 fun AppTopBar(
     title: String,
+    scrollBehavior: TopAppBarScrollBehavior? = null,
     onBack: (() -> Unit)? = null
 ) {
     CenterAlignedTopAppBar(
@@ -39,6 +41,7 @@ fun AppTopBar(
                 }
             }
         },
+        scrollBehavior = scrollBehavior,
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer,
             titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer
@@ -46,6 +49,7 @@ fun AppTopBar(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
 fun TopAppBarPrev() {
