@@ -10,6 +10,7 @@ import com.mon.gametracker.features.game.core.domain.achievement.GetAchievementU
 import com.mon.gametracker.features.game.core.domain.achievement.SetAchievementCompletedUseCase
 import com.mon.gametracker.features.game.core.domain.game.GameId
 import com.mon.gametracker.features.game.core.domain.game.GetGameUseCase
+import com.mon.gametracker.navigation.DetailSource
 import com.mon.gametracker.navigation.GameDetailDestination
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
@@ -34,7 +35,11 @@ class DetailViewModel @Inject constructor(
     private val gameId = GameId(route.gameId)
 
 
-    private val _uiState = MutableStateFlow(value = DetailUiState())
+    private val _uiState = MutableStateFlow(value = DetailUiState(
+        canEditAchievements = route.source == DetailSource.LIBRARY,
+        showAddButton = route.source == DetailSource.SEARCH_API
+    ))
+
     val uiState: StateFlow<DetailUiState> = _uiState.asStateFlow()
 
     init {
@@ -87,6 +92,9 @@ class DetailViewModel @Inject constructor(
         achievementId: AchievementId,
         isCompleted: Boolean
     ) {
+
+        if (!_uiState.value.canEditAchievements) return
+
         val gameId = GameId("1")
 
         viewModelScope.launch {
