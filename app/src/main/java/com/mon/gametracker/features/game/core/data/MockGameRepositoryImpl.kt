@@ -54,4 +54,8 @@ class MockGameRepositoryImpl @Inject constructor() : GameRepository {
         delay(1000)
         return games.find { it.id == id }
     }
+
+    override suspend fun addGameToLibrary(game: Game) {
+        TODO("Not yet implemented")
+    }
 }

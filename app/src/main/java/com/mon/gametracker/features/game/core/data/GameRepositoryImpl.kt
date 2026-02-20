@@ -1,7 +1,10 @@
-package com.mon.gametracker.features.game.core.data.remote
+package com.mon.gametracker.features.game.core.data
 
+import com.mon.gametracker.features.game.core.data.local.GameDAO
+import com.mon.gametracker.features.game.core.data.mappers.toEntity
 import com.mon.gametracker.features.game.core.data.mappers.toGame
 import com.mon.gametracker.features.game.core.data.mappers.toSummary
+import com.mon.gametracker.features.game.core.data.remote.GameApiService
 import com.mon.gametracker.features.game.core.domain.game.Game
 import com.mon.gametracker.features.game.core.domain.game.GameId
 import com.mon.gametracker.features.game.core.domain.game.GameRepository
@@ -9,7 +12,8 @@ import com.mon.gametracker.features.game.core.domain.game.GameSummary
 import javax.inject.Inject
 
 class GameRepositoryImpl @Inject constructor(
-    private val api: GameApiService
+    private val api: GameApiService,
+    private val dao: GameDAO
 ) : GameRepository {
 
     override suspend fun getGames(query: String?): List<GameSummary> {
@@ -27,5 +31,13 @@ class GameRepositoryImpl @Inject constructor(
         } catch (e: Exception) {
             null
         }
+    }
+
+    override suspend fun addGameToLibrary(game: Game) {
+        TODO("Not yet implemented")
+    }
+
+    suspend fun saveGame(game: Game) {
+        dao.insertGame(game.toEntity())
     }
 }
