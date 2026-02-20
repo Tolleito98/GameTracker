@@ -1,5 +1,6 @@
 package com.mon.gametracker.features.game.core.data.remote
 
+import com.mon.gametracker.features.game.core.data.dto.AchievementResponseDTO
 import com.mon.gametracker.features.game.core.data.dto.GameDTO
 import com.mon.gametracker.features.game.core.data.dto.GameResponseDTO
 import retrofit2.http.GET
@@ -18,4 +19,11 @@ interface GameApiService {
     suspend fun getGame(
         @Path(value = "id") id: String
     ): GameDTO
+
+
+    @GET("games/{id}/achievements")
+    suspend fun getGameAchievements(
+        @Path("id") id: String,
+        @Query("page_size") pageSize: Int = 20
+    ): AchievementResponseDTO
 }

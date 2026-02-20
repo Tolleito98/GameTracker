@@ -1,8 +1,7 @@
-package com.mon.gametracker.features.game.core.data
+package com.mon.gametracker.features.game.core.data.remote
 
 import com.mon.gametracker.features.game.core.data.mappers.toGame
 import com.mon.gametracker.features.game.core.data.mappers.toSummary
-import com.mon.gametracker.features.game.core.data.remote.GameApiService
 import com.mon.gametracker.features.game.core.domain.game.Game
 import com.mon.gametracker.features.game.core.domain.game.GameId
 import com.mon.gametracker.features.game.core.domain.game.GameRepository
