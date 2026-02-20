@@ -24,8 +24,7 @@ class GameRepositoryImpl @Inject constructor(
 
     override suspend fun getGameById(id: GameId): Game? {
         return try {
-            val gameDto = api.getGame(id.value)
-            gameDto.toGame()
+            api.getGame(id.value).toGame()
         } catch (e: Exception) {
             null
         }

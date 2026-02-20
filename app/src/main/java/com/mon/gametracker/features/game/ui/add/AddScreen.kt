@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.mon.gametracker.core.ui.components.AppTopBar
 import com.mon.gametracker.core.ui.components.ErrorCard
+import com.mon.gametracker.features.game.core.domain.game.GameId
 import com.mon.gametracker.features.game.core.domain.game.GameSummary
 import com.mon.gametracker.features.game.ui.components.GameSearchBar
 import com.mon.gametracker.features.game.ui.components.GameList
@@ -32,6 +33,7 @@ import com.mon.gametracker.features.game.ui.components.GameList
 @Composable
 fun AddScreen(
     onBack: () -> Unit,
+    onNavigateToDetail: (GameId) -> Unit,
     viewModel: AddScreenViewModel = hiltViewModel()
 ) {
 
@@ -88,7 +90,7 @@ fun AddScreen(
                 else -> {
                     GameList(
                         games = games,
-                        onGameClick = { /* TODO: Go to detail xd */ }
+                        onGameClick = onNavigateToDetail
                     )
                 }
             }

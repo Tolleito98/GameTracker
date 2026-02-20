@@ -7,7 +7,7 @@ import com.mon.gametracker.features.game.core.domain.game.GameSummary
 
 fun GameDTO.toSummary(): GameSummary {
     return GameSummary(
-        id = GameId(this.toString()),
+        id = GameId(this.id.toString()),
         name = this.name,
         imageURL = this.backgroundImage ?: "",
         rating = this.rating,

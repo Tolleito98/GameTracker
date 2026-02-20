@@ -40,8 +40,12 @@ fun GameNavHost(
         }
         composable<AddDestination> {
             AddScreen(
-                onBack = { navController.popBackStack() }
-                /*Todo: implementar to detail*/
+                onBack = { navController.popBackStack() },
+                onNavigateToDetail = { id ->
+                    navController.navigate(
+                        route = GameDetailDestination(id.value)
+                    )
+                }
             )
         }
 
