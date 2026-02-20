@@ -8,6 +8,7 @@ import androidx.navigation.toRoute
 import com.mon.gametracker.features.game.core.domain.achievement.AchievementId
 import com.mon.gametracker.features.game.core.domain.achievement.GetAchievementUseCase
 import com.mon.gametracker.features.game.core.domain.achievement.SetAchievementCompletedUseCase
+import com.mon.gametracker.features.game.core.domain.game.AddGameToLibraryUseCase
 import com.mon.gametracker.features.game.core.domain.game.GameId
 import com.mon.gametracker.features.game.core.domain.game.GetGameUseCase
 import com.mon.gametracker.navigation.DetailSource
@@ -28,6 +29,7 @@ class DetailViewModel @Inject constructor(
     private val getAchievementUseCase: GetAchievementUseCase,
     private val setAchievementCompletedUseCase: SetAchievementCompletedUseCase,
     private val getGameUseCase: GetGameUseCase,
+    private val addGameToLibraryUseCase: AddGameToLibraryUseCase,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -35,10 +37,12 @@ class DetailViewModel @Inject constructor(
     private val gameId = GameId(route.gameId)
 
 
-    private val _uiState = MutableStateFlow(value = DetailUiState(
-        canEditAchievements = route.source == DetailSource.LIBRARY,
-        showAddButton = route.source == DetailSource.SEARCH_API
-    ))
+    private val _uiState = MutableStateFlow(
+        value = DetailUiState(
+            canEditAchievements = route.source == DetailSource.LIBRARY,
+            showAddButton = route.source == DetailSource.SEARCH_API
+        )
+    )
 
     val uiState: StateFlow<DetailUiState> = _uiState.asStateFlow()
 
@@ -125,6 +129,28 @@ class DetailViewModel @Inject constructor(
                         achievements = previous
                     )
                 }
+            }
+        }
+    }
+
+    fun onShowAddConfirmation() {
+        _uiState.update { it.copy(showConfirmDialog = true) }
+    }
+
+    fun onDismissDialog() {
+        _uiState.update { it.copy(showConfirmDialog = false) }
+    }
+
+    fun onConfirmAddGame() {
+        val game = _uiState.value.game ?: return
+
+        _uiState.update { it.copy(showConfirmDialog = false) }
+
+        viewModelScope.launch {
+            runCatching {
+                addGameToLibraryUseCase.execute(game)
+            }.onSuccess {
+                _uiState.update { it.copy(showAddButton = false) }
             }
         }
     }

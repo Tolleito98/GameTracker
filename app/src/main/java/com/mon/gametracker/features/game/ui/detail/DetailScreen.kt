@@ -13,6 +13,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.DownloadDone
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -20,6 +21,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -46,7 +48,25 @@ fun DetailScreen(
 ) {
 
     val uiState by viewModel.uiState.collectAsState()
-    val (game, isLoading, errorMessage, achievements, isEditable, showAddButton) = uiState
+    val (game, isLoading, errorMessage, showConfirmDialog, achievements, isEditable, showAddButton) = uiState
+
+    if (showConfirmDialog) {
+        AlertDialog(
+            onDismissRequest = { viewModel.onDismissDialog() },
+            confirmButton = {
+                TextButton(onClick = { viewModel.onConfirmAddGame() }) {
+                    Text("Añadir")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { viewModel.onDismissDialog() }) {
+                    Text("Cancelar")
+                }
+            },
+            title = { Text("Añadir a la biblioteca") },
+            text = { Text("¿Quieres añadir ${uiState.game?.name} a tu colección de juegos?") }
+        )
+    }
 
     Scaffold(
         topBar = {
@@ -58,7 +78,7 @@ fun DetailScreen(
         floatingActionButton = {
             if (showAddButton) {
                 FloatingActionButton(
-                    onClick = {/*TODO: Add to room*/ }
+                    onClick = {viewModel.onShowAddConfirmation() }
                 ) {
                     Icon(
                         imageVector = Icons.Default.Check,

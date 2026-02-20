@@ -5,6 +5,7 @@ import com.mon.gametracker.features.game.core.domain.game.GameId
 import com.mon.gametracker.features.game.core.domain.game.GameRepository
 import com.mon.gametracker.features.game.core.domain.game.GameSummary
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class MockGameRepositoryImpl @Inject constructor() : GameRepository {
@@ -36,7 +37,7 @@ class MockGameRepositoryImpl @Inject constructor() : GameRepository {
         )
     )
 
-    override suspend fun getGames(query: String?): List<GameSummary> {
+    override suspend fun getApiGames(query: String?): List<GameSummary> {
         delay(1000)
         return games.map { game ->
             GameSummary(
@@ -48,6 +49,10 @@ class MockGameRepositoryImpl @Inject constructor() : GameRepository {
             )
 
         }
+    }
+
+    override fun getLibraryGames(): Flow<List<GameSummary>> {
+        TODO("Not yet implemented")
     }
 
     override suspend fun getGameById(id: GameId): Game? {

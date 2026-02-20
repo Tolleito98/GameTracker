@@ -30,6 +30,17 @@ fun GameDTO.toGame(): Game {
 }
 
 //##################ROOM##################//
+
+fun GameEntity.toSummary(): GameSummary {
+    return GameSummary(
+        id = GameId(this.id),
+        name = this.name,
+        imageURL = this.imageUrl,
+        rating = this.rating,
+        genre = this.genre
+    )
+}
+
 fun Game.toEntity(): GameEntity {
     return GameEntity(
         id = this.id.value,
