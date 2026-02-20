@@ -7,4 +7,5 @@ interface GameRepository {
     fun getLibraryGames(): Flow<List<GameSummary>>
     suspend fun getGameById(id: GameId) : Game?
     suspend fun addGameToLibrary(game: Game)
+    suspend fun deleteGame(id: GameId)
 }

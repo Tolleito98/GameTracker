@@ -48,4 +48,11 @@ class GameRepositoryImpl @Inject constructor(
     suspend fun saveGame(game: Game) {
         dao.insertGame(game.toEntity())
     }
+
+    override suspend fun deleteGame(id: GameId) {
+        val entity = dao.getGameById(id.value)
+        if (entity != null) {
+            dao.deleteGame(entity)
+        }
+    }
 }

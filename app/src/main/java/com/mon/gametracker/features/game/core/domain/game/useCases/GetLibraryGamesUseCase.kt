@@ -1,5 +1,7 @@
-package com.mon.gametracker.features.game.core.domain.game
+package com.mon.gametracker.features.game.core.domain.game.useCases
 
+import com.mon.gametracker.features.game.core.domain.game.GameRepository
+import com.mon.gametracker.features.game.core.domain.game.GameSummary
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

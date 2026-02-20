@@ -9,6 +9,7 @@ import com.mon.gametracker.features.game.core.domain.game.GameSummary
 
 @Composable
 fun GameList(
+    onDelete: ((GameId) -> Unit)?,
     games: List<GameSummary>,
     onGameClick: (GameId) -> Unit,
 ) {
@@ -19,6 +20,7 @@ fun GameList(
             key = { it.id.value }
         ) { game ->
             GameCard(
+                onDelete = onDelete,
                 game = game,
                 onCLick = { onGameClick(game.id) },
             )

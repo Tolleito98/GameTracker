@@ -8,9 +8,9 @@ import androidx.navigation.toRoute
 import com.mon.gametracker.features.game.core.domain.achievement.AchievementId
 import com.mon.gametracker.features.game.core.domain.achievement.GetAchievementUseCase
 import com.mon.gametracker.features.game.core.domain.achievement.SetAchievementCompletedUseCase
-import com.mon.gametracker.features.game.core.domain.game.AddGameToLibraryUseCase
+import com.mon.gametracker.features.game.core.domain.game.useCases.AddGameToLibraryUseCase
 import com.mon.gametracker.features.game.core.domain.game.GameId
-import com.mon.gametracker.features.game.core.domain.game.GetGameUseCase
+import com.mon.gametracker.features.game.core.domain.game.useCases.GetGameUseCase
 import com.mon.gametracker.navigation.DetailSource
 import com.mon.gametracker.navigation.GameDetailDestination
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -63,4 +63,8 @@ class MockGameRepositoryImpl @Inject constructor() : GameRepository {
     override suspend fun addGameToLibrary(game: Game) {
         TODO("Not yet implemented")
     }
+
+    override suspend fun deleteGame(id: GameId) {
+        TODO("Not yet implemented")
+    }
 }

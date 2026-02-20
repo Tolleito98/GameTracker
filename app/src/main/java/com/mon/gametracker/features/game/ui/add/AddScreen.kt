@@ -90,7 +90,8 @@ fun AddScreen(
                 else -> {
                     GameList(
                         games = games,
-                        onGameClick = onNavigateToDetail
+                        onGameClick = onNavigateToDetail,
+                        onDelete = null
                     )
                 }
             }
