@@ -16,6 +16,7 @@ coil = "3.3.0"
 navV = "2.9.7"
 retrofitV = "3.0.0"
 kotlinxSerializationConverter = "1.0.0"
+room = "2.8.4"
 
 [libraries]
 androidx-compose-material-icons-core = { group = "androidx.compose.material", name = "material-icons-core" }
@@ -49,6 +50,11 @@ coil-network = { group = "io.coil-kt.coil3", name = "coil-network-okhttp", versi
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofitV" }
 retrofit-converter-kotlinx = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version.ref = "kotlinxSerializationConverter" }
 okhttp-logging = { group = "com.squareup.okhttp3", name = "logging-interceptor", version = "5.3.2" }
+
+room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
