@@ -23,7 +23,10 @@ fun GameNavHost(
             LibraryScreen(
                 onNavigateToDetail = { id ->
                     navController.navigate(
-                        route = GameDetailDestination(id.value)
+                        route = GameDetailDestination(
+                            id.value,
+                            DetailSource.LIBRARY
+                        )
                     )
                 },
                 onNavigateToAdd = {
@@ -40,8 +43,15 @@ fun GameNavHost(
         }
         composable<AddDestination> {
             AddScreen(
-                onBack = { navController.popBackStack() }
-                /*Todo: implementar to detail*/
+                onBack = { navController.popBackStack() },
+                onNavigateToDetail = { id ->
+                    navController.navigate(
+                        route = GameDetailDestination(
+                            id.value,
+                            DetailSource.SEARCH_API
+                        )
+                    )
+                }
             )
         }
 

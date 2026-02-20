@@ -19,7 +19,7 @@ class LibraryViewModel @Inject constructor(
     val uiState: StateFlow<LibraryUiState> = _uiState.asStateFlow()
 
     init {
-        loadGames()
+       /* todo: wait till room implementation loadGames()*/
     }
 
     private fun loadGames() {

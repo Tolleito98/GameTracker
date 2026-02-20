@@ -9,4 +9,4 @@ object LibraryDestination
 object AddDestination
 
 @Serializable
-data class GameDetailDestination(val gameId: String)
+data class GameDetailDestination(val gameId: String,val source: DetailSource)

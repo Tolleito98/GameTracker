@@ -33,11 +33,13 @@ import com.mon.gametracker.features.game.core.domain.achievement.Achievement
 fun AchievementItem(
     achievement: Achievement,
     onToggle: (Boolean) -> Unit,
+    isEditable: Boolean,
     modifier: Modifier = Modifier
 ) {
     var expanded by rememberSaveable { mutableStateOf(false) }
 
     AchievementItemContent(
+        isEditable = isEditable,
         achievement = achievement,
         expanded = expanded,
         onExpandClick = {
@@ -51,13 +53,13 @@ fun AchievementItem(
 
 @Composable
 private fun AchievementItemContent(
+    isEditable: Boolean,
     achievement: Achievement,
     expanded: Boolean,
     onExpandClick: () -> Unit,
     onToggle: (Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
-
     Card(
         modifier = modifier
             .fillMaxWidth()
@@ -96,10 +98,12 @@ private fun AchievementItemContent(
                     )
                 }
 
-                Checkbox(
-                    checked = achievement.isCompleted,
-                    onCheckedChange = { onToggle(it) }
-                )
+                if (isEditable) {
+                    Checkbox(
+                        checked = achievement.isCompleted,
+                        onCheckedChange = { onToggle(it) }
+                    )
+                }
 
             }
 
@@ -117,7 +121,7 @@ private fun AchievementItemContent(
 @Composable
 private fun AchievementInfo(
     achievement: Achievement
-){
+) {
     Surface(
         modifier = Modifier.fillMaxWidth(),
         color = MaterialTheme.colorScheme.surfaceVariant,

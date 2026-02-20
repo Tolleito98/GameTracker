@@ -9,8 +9,14 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.DownloadDone
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -40,7 +46,7 @@ fun DetailScreen(
 ) {
 
     val uiState by viewModel.uiState.collectAsState()
-    val (game, isLoading, errorMessage, achievements) = uiState
+    val (game, isLoading, errorMessage, achievements, isEditable, showAddButton) = uiState
 
     Scaffold(
         topBar = {
@@ -49,6 +55,18 @@ fun DetailScreen(
                 onBack = onBack
             )
         },
+        floatingActionButton = {
+            if (showAddButton) {
+                FloatingActionButton(
+                    onClick = {/*TODO: Add to room*/ }
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Check,
+                        contentDescription = "Add game"
+                    )
+                }
+            }
+        }
     ) { paddingValues ->
         Box(
             modifier = Modifier
@@ -75,13 +93,14 @@ fun DetailScreen(
                 game != null -> {
                     DetailContent(
                         game = game,
-                        achievements = uiState.achievements,
+                        achievements = achievements,
                         onToggleAchievement = { achievementId, isCompleted ->
                             viewModel.onToggleAchievement(
                                 achievementId = achievementId,
-                                isCompleted = isCompleted
+                                isCompleted = isCompleted,
                             )
-                        }
+                        },
+                        isEditable = isEditable,
                     )
                 }
             }
@@ -92,6 +111,7 @@ fun DetailScreen(
 
 @Composable
 private fun DetailContent(
+    isEditable: Boolean,
     game: Game,
     achievements: List<Achievement>,
     onToggleAchievement: (AchievementId, Boolean) -> Unit,
@@ -148,7 +168,8 @@ private fun DetailContent(
                             achievement.key.achievementId,
                             newValue
                         )
-                    }
+                    },
+                    isEditable = isEditable,
                 )
             }
         }
