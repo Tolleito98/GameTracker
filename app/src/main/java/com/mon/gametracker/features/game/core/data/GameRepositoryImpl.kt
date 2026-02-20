@@ -1,5 +1,6 @@
 package com.mon.gametracker.features.game.core.data
 
+import com.mon.gametracker.features.game.core.data.mappers.toGame
 import com.mon.gametracker.features.game.core.data.mappers.toSummary
 import com.mon.gametracker.features.game.core.data.remote.GameApiService
 import com.mon.gametracker.features.game.core.domain.game.Game
@@ -22,6 +23,11 @@ class GameRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getGameById(id: GameId): Game? {
-        TODO("Not yet implemented")
+        return try {
+            val gameDto = api.getGame(id.value)
+            gameDto.toGame()
+        } catch (e: Exception) {
+            null
+        }
     }
 }
