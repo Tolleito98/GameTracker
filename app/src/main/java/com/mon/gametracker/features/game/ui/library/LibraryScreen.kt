@@ -71,6 +71,9 @@ fun LibraryScreen(
                 }
 
                 else -> GameList(
+                    onDelete = { gameId ->
+                        viewModel.onDeleteGame(gameId)
+                    },
                     games = games,
                     onGameClick = { onNavigateToDetail(it) }
                 )

@@ -1,10 +1,12 @@
 package com.mon.gametracker.features.game.core.data.mappers
 
 import com.mon.gametracker.features.game.core.data.dto.GameDTO
+import com.mon.gametracker.features.game.core.data.local.game.GameEntity
 import com.mon.gametracker.features.game.core.domain.game.Game
 import com.mon.gametracker.features.game.core.domain.game.GameId
 import com.mon.gametracker.features.game.core.domain.game.GameSummary
 
+//##################API##################//
 fun GameDTO.toSummary(): GameSummary {
     return GameSummary(
         id = GameId(this.id.toString()),
@@ -26,3 +28,39 @@ fun GameDTO.toGame(): Game {
         developer = developers.joinToString(", ") { it.name }
     )
 }
+
+//##################ROOM##################//
+
+fun GameEntity.toSummary(): GameSummary {
+    return GameSummary(
+        id = GameId(this.id),
+        name = this.name,
+        imageURL = this.imageUrl,
+        rating = this.rating,
+        genre = this.genre
+    )
+}
+
+fun Game.toEntity(): GameEntity {
+    return GameEntity(
+        id = this.id.value,
+        name = this.name,
+        imageUrl = this.imageURL,
+        genre = this.genre,
+        developer = this.developer,
+        rating = this.rating
+    )
+}
+
+fun GameEntity.toDomain(): Game {
+    return Game(
+        id = GameId(this.id),
+        name = this.name,
+        imageURL = this.imageUrl,
+        genre = this.genre,
+        developer = this.developer,
+        rating = this.rating,
+        achievements = emptyList()
+    )
+}
+

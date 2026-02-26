@@ -7,6 +7,7 @@ data class DetailUiState(
     val game: Game? = null,
     val isLoading: Boolean = false,
     val errorMessage: String? = null,
+    val showConfirmDialog: Boolean = false,
     val achievements: List<Achievement> = emptyList(),
     val canEditAchievements: Boolean = false,
     val showAddButton: Boolean = false

@@ -163,5 +163,12 @@ class MockAchievementRepositoryImpl
         )
         return true
     }
+
+    override suspend fun saveAchievements(
+        gameId: GameId,
+        achievements: List<Achievement>
+    ) {
+        TODO("Not yet implemented")
+    }
 }
 

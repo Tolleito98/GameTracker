@@ -6,10 +6,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.mon.gametracker.features.game.core.domain.achievement.AchievementId
-import com.mon.gametracker.features.game.core.domain.achievement.GetAchievementUseCase
-import com.mon.gametracker.features.game.core.domain.achievement.SetAchievementCompletedUseCase
+import com.mon.gametracker.features.game.core.domain.achievement.SaveInitialAchievementsUseCase
+import com.mon.gametracker.features.game.core.domain.achievement.useCases.GetAchievementUseCase
+import com.mon.gametracker.features.game.core.domain.achievement.useCases.SetAchievementCompletedUseCase
+import com.mon.gametracker.features.game.core.domain.game.useCases.AddGameToLibraryUseCase
 import com.mon.gametracker.features.game.core.domain.game.GameId
-import com.mon.gametracker.features.game.core.domain.game.GetGameUseCase
+import com.mon.gametracker.features.game.core.domain.game.useCases.GetGameUseCase
 import com.mon.gametracker.navigation.DetailSource
 import com.mon.gametracker.navigation.GameDetailDestination
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -28,18 +30,20 @@ class DetailViewModel @Inject constructor(
     private val getAchievementUseCase: GetAchievementUseCase,
     private val setAchievementCompletedUseCase: SetAchievementCompletedUseCase,
     private val getGameUseCase: GetGameUseCase,
+    private val addGameToLibraryUseCase: AddGameToLibraryUseCase,
+    private val saveInitialAchievementsUseCase: SaveInitialAchievementsUseCase,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
     private val route = savedStateHandle.toRoute<GameDetailDestination>()
     private val gameId = GameId(route.gameId)
 
-
-    private val _uiState = MutableStateFlow(value = DetailUiState(
-        canEditAchievements = route.source == DetailSource.LIBRARY,
-        showAddButton = route.source == DetailSource.SEARCH_API
-    ))
-
+    private val _uiState = MutableStateFlow(
+        value = DetailUiState(
+            canEditAchievements = route.source == DetailSource.LIBRARY,
+            showAddButton = route.source == DetailSource.SEARCH_API
+        )
+    )
     val uiState: StateFlow<DetailUiState> = _uiState.asStateFlow()
 
     init {
@@ -48,15 +52,7 @@ class DetailViewModel @Inject constructor(
 
     private fun loadGameData() {
         viewModelScope.launch {
-
-            _uiState.update {
-                it.copy(
-                    isLoading = true,
-                    errorMessage = null
-                )
-            }
-
-            val gameId = GameId(value = gameId.value)
+            _uiState.update { it.copy(isLoading = true, errorMessage = null) }
 
             val result = runCatching {
                 coroutineScope {
@@ -80,25 +76,18 @@ class DetailViewModel @Inject constructor(
                 _uiState.update {
                     it.copy(
                         isLoading = false,
-                        errorMessage = e.localizedMessage ?: "Unknown error"
+                        errorMessage = e.localizedMessage ?: "Error desconocido"
                     )
                 }
             }
         }
-
     }
 
-    fun onToggleAchievement(
-        achievementId: AchievementId,
-        isCompleted: Boolean
-    ) {
-
+    fun onToggleAchievement(achievementId: AchievementId, isCompleted: Boolean) {
         if (!_uiState.value.canEditAchievements) return
 
-        val gameId = GameId("1")
-
         viewModelScope.launch {
-            val previous = _uiState.value.achievements
+            val previousAchievements = _uiState.value.achievements
 
             _uiState.update { state ->
                 state.copy(
@@ -113,20 +102,53 @@ class DetailViewModel @Inject constructor(
                 )
             }
 
+            val success = setAchievementCompletedUseCase.execute(
+                gameId = gameId,
+                achievementId = achievementId,
+                isCompleted = isCompleted
+            )
+
+            if (!success) {
+                _uiState.update { it.copy(achievements = previousAchievements) }
+            }
+        }
+    }
+
+    fun onShowAddConfirmation() {
+        _uiState.update { it.copy(showConfirmDialog = true) }
+    }
+
+    fun onDismissDialog() {
+        _uiState.update { it.copy(showConfirmDialog = false) }
+    }
+
+    fun onConfirmAddGame() {
+        val game = _uiState.value.game ?: return
+        val achievements = _uiState.value.achievements
+
+        _uiState.update { it.copy(showConfirmDialog = false, isLoading = true) }
+
+        viewModelScope.launch {
             runCatching {
-                setAchievementCompletedUseCase.execute(
-                    gameId = gameId,
-                    achievementId = achievementId,
-                    isCompleted = isCompleted
-                )
-            }.onFailure {
+                addGameToLibraryUseCase.execute(game)
+                saveInitialAchievementsUseCase.execute(game.id, achievements)
+            }.onSuccess {
                 _uiState.update {
                     it.copy(
-                        achievements = previous
+                        isLoading = false,
+                        showAddButton = false,
+                        canEditAchievements = true
+                    )
+                }
+            }.onFailure { e ->
+                Log.e("DetailViewModel", "Error saving game", e)
+                _uiState.update {
+                    it.copy(
+                        isLoading = false,
+                        errorMessage = "No se pudo añadir a la biblioteca"
                     )
                 }
             }
         }
     }
-
 }
