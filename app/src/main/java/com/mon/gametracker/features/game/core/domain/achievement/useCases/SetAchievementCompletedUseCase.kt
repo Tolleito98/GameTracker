@@ -1,5 +1,7 @@
-package com.mon.gametracker.features.game.core.domain.achievement
+package com.mon.gametracker.features.game.core.domain.achievement.useCases
 
+import com.mon.gametracker.features.game.core.domain.achievement.AchievementId
+import com.mon.gametracker.features.game.core.domain.achievement.AchievementRepository
 import com.mon.gametracker.features.game.core.domain.game.GameId
 import javax.inject.Inject
 

@@ -17,4 +17,10 @@ interface AchievementRepository {
         isCompleted: Boolean
     ) : Boolean
 
+    suspend fun saveAchievements(
+        gameId: GameId,
+        achievements: List<Achievement>
+    )
+
+
 }

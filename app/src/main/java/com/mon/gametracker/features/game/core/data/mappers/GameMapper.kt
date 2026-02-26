@@ -1,7 +1,7 @@
 package com.mon.gametracker.features.game.core.data.mappers
 
 import com.mon.gametracker.features.game.core.data.dto.GameDTO
-import com.mon.gametracker.features.game.core.data.local.GameEntity
+import com.mon.gametracker.features.game.core.data.local.game.GameEntity
 import com.mon.gametracker.features.game.core.domain.game.Game
 import com.mon.gametracker.features.game.core.domain.game.GameId
 import com.mon.gametracker.features.game.core.domain.game.GameSummary

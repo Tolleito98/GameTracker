@@ -1,10 +1,9 @@
 package com.mon.gametracker.features.game.core.di
 
+import com.mon.gametracker.features.game.core.data.AchievementRepositoryImpl
 import com.mon.gametracker.features.game.core.data.GameRepositoryImpl
-import com.mon.gametracker.features.game.core.data.MockAchievementRepositoryImpl
-import com.mon.gametracker.features.game.core.data.MockGameRepositoryImpl
-import com.mon.gametracker.features.game.core.data.local.GameDAO
-import com.mon.gametracker.features.game.core.data.remote.AchievementRepositoryImpl
+import com.mon.gametracker.features.game.core.data.local.achievement.AchievementDAO
+import com.mon.gametracker.features.game.core.data.local.game.GameDAO
 import com.mon.gametracker.features.game.core.data.remote.GameApiService
 import com.mon.gametracker.features.game.core.domain.achievement.AchievementRepository
 import com.mon.gametracker.features.game.core.domain.game.GameRepository
@@ -39,7 +38,13 @@ object GameModule {
 
     @Singleton
     @Provides
-    fun provideAchievementRepository(api: GameApiService): AchievementRepository =
-        AchievementRepositoryImpl(api = api)
+    fun provideAchievementRepository(
+        api: GameApiService,
+        dao: AchievementDAO
+    ): AchievementRepository =
+        AchievementRepositoryImpl(
+            api = api,
+            dao = dao,
+        )
 
 }

@@ -1,4 +1,4 @@
-package com.mon.gametracker.features.game.core.data.local
+package com.mon.gametracker.features.game.core.data.local.game
 
 import androidx.room.Dao
 import androidx.room.Delete

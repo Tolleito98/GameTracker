@@ -1,6 +1,6 @@
 package com.mon.gametracker.features.game.core.data
 
-import com.mon.gametracker.features.game.core.data.local.GameDAO
+import com.mon.gametracker.features.game.core.data.local.game.GameDAO
 import com.mon.gametracker.features.game.core.data.mappers.toEntity
 import com.mon.gametracker.features.game.core.data.mappers.toGame
 import com.mon.gametracker.features.game.core.data.mappers.toSummary

@@ -2,7 +2,8 @@ package com.mon.gametracker.features.game.core.di
 
 import android.content.Context
 import androidx.room.Room
-import com.mon.gametracker.features.game.core.data.local.GameDAO
+import com.mon.gametracker.features.game.core.data.local.achievement.AchievementDAO
+import com.mon.gametracker.features.game.core.data.local.game.GameDAO
 import com.mon.gametracker.features.game.core.data.local.GameDatabase
 import dagger.Module
 import dagger.Provides
@@ -22,9 +23,15 @@ object DatabaseModule {
             context,
             GameDatabase::class.java,
             "game_tracker_db"
-        ).build()
+        )
+            .fallbackToDestructiveMigration(true)
+            .build()
     }
 
     @Provides
     fun provideGameDao(db: GameDatabase): GameDAO = db.gameDao()
+
+    @Provides
+    fun provideAchievementDao(db: GameDatabase): AchievementDAO = db.achievementDao()
+
 }

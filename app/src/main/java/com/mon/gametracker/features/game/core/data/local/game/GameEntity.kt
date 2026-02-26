@@ -1,4 +1,4 @@
-package com.mon.gametracker.features.game.core.data.local
+package com.mon.gametracker.features.game.core.data.local.game
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
